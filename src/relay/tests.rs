@@ -24,7 +24,10 @@ use interprocess::local_socket::traits::tokio::Listener as _;
 async fn slow_daemon_start_is_awaited() -> Result<()> {
     let dir = std::env::temp_dir().join(format!("mm_relay_slow_{}", std::process::id()));
     std::fs::create_dir_all(&dir)?;
+    #[cfg(unix)]
     let socket = dir.join("s.sock");
+    #[cfg(windows)]
+    let socket = std::path::PathBuf::from(format!(r"\\.\pipe\mm_relay_slow_{}", std::process::id()));
     let path = socket.clone();
     let listener = tokio::spawn(async move {
         tokio::time::sleep(Duration::from_millis(3500)).await;
