@@ -101,6 +101,9 @@ pub fn read(root: &Path, rel: &Path) -> Result<SourceNote> {
     }
     let text = String::from_utf8(bytes).map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidData, e))?;
     let stem = rel.file_stem().map(|s| s.to_string_lossy().into_owned()).unwrap_or_default();
-    let folder = rel.parent().map(|p| p.to_string_lossy().into_owned()).filter(|p| !p.is_empty());
+    // Join with `/` on every OS, so Windows imports tag `folder:a/b`, not `folder:a\b`.
+    let folder =
+        rel.parent().map(|p| p.components().map(|c| c.as_os_str().to_string_lossy()).collect::<Vec<_>>().join("/"));
+    let folder = folder.filter(|p| !p.is_empty());
     Ok(SourceNote { path: rel.to_path_buf(), note: parse(&text, &stem, folder.as_deref()) })
 }
