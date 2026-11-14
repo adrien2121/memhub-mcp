@@ -1,0 +1,35 @@
+[package]
+name = "memhub-mcp"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.6.7", features = ["derive"] }
+dirs = "7.0.0"
+figment = { version = "0.10.19", features = ["toml", "env"] }
+flate2 = "1.1.10"
+fs4 = "1.1.0"
+interprocess = { version = "2.4.7", features = ["tokio"] }
+ort = { version = "=2.0.0-rc.15", default-features = false, features = ["std", "ndarray", "load-dynamic", "api-31"] }
+rmcp = { version = "=3.7.0", features = ["server", "macros", "transport-io", "transport-async-rw"] }
+rusqlite = { version = "0.41.0", features = ["bundled"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order"] }
+sha2 = "0.10.9"
+tar = "0.4.46"
+thiserror = "2.0.21"
+tokenizers = "0.23.2"
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net", "io-std", "io-util", "sync", "time", "signal"] }
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
+turbovec = "=1.1.2"
+ureq = "3"
+zip = { version = "9.1.1", default-features = false, features = ["deflate"] }
+
+[lints.rust]
+missing_docs = "deny"
+
+[lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+missing_errors_doc = "deny"

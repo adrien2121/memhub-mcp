@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy -q --all-targets -- -D warnings
+      - run: cargo test -q
+      # The runner's data dir is fresh, so this downloads everything; the model tests,
+      # skipped above for lack of a model, then run against it.
+      - run: cargo run -q --release -- setup
+      - run: cargo run -q --release -- setup
+      - run: cargo test -q --lib ort
+      - run: cargo test -q --test semantic_recall

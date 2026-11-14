@@ -1,0 +1,6 @@
+/target
+eval/README.md
+eval/notes_eval/
+__pycache__/
+HANDOFF.md
+TEST_RESULTS.md
