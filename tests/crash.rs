@@ -23,7 +23,7 @@ fn crash_child() {
         return;
     };
     let store = SqliteStore::open_with_tokenizer(&PathBuf::from(path), "porter unicode61").unwrap();
-    for i in 0.. {
+    for i in 0..=u64::MAX {
         let body = format!("crashword body number {i}");
         let chunk = NewChunk { seq: 0, start: 0, end: body.len(), text: body.clone() };
         let note = NewNote { title: format!("c{i}"), body, tags: vec![Tag("crash".into())] };

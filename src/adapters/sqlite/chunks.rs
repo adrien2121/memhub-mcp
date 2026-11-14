@@ -145,6 +145,6 @@ pub(crate) fn decode(value: ValueRef<'_>, id: ChunkId, buf: &mut Vec<f32>) -> Re
         return Err(Error::Storage(format!("chunk {} has a malformed embedding", id.0)));
     }
     buf.clear();
-    buf.extend(blob.chunks_exact(4).map(|b| f32::from_le_bytes([b[0], b[1], b[2], b[3]])));
+    buf.extend(blob.as_chunks::<4>().0.iter().map(|b| f32::from_le_bytes(*b)));
     Ok(())
 }

@@ -1,9 +1,7 @@
 # memhub-mcp
 
 Persistent note memory for AI agents over MCP: write, read, edit, delete, list and
-search notes. Search is hybrid: keyword plus semantic search (finds notes by meaning,
-not just exact words). Storage, embedding and search all run on your machine; no external
-embedding API is used. Notes your AI tool reads are sent to its model like any other text.
+search notes. Search is hybrid: keyword plus semantic, with a local embedding model.
 
 ## Install
 

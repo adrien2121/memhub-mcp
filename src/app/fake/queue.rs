@@ -23,7 +23,7 @@ impl EmbeddingQueue for FakeStore {
     /// * [`Error::Storage`] - An injected failure remains (`database is locked`).
     fn pending_chunks(&self, after: ChunkId, limit: usize) -> Result<Vec<Chunk>> {
         self.pending_calls.fetch_add(1, Ordering::SeqCst);
-        let failing = self.pending_failures.fetch_update(Ordering::SeqCst, Ordering::SeqCst, |n| n.checked_sub(1));
+        let failing = self.pending_failures.try_update(Ordering::SeqCst, Ordering::SeqCst, |n| n.checked_sub(1));
         if failing.is_ok() {
             return Err(Error::Storage("database is locked".into()));
         }
