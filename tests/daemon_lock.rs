@@ -42,7 +42,7 @@ fn config(dir: &Path) -> Config {
         #[cfg(unix)]
         socket_path: dir.join("m.sock"),
         #[cfg(windows)]
-        socket_path: format!(r"\\.\pipe\mm_lock_{}", dir.file_name().unwrap().to_string_lossy()).into(),
+        socket_path: format!(r"\\.\pipe\mm_lock_{}", dir.file_name().unwrap_or_default().to_string_lossy()).into(),
         threads: 1,
         exact_max_chunks: 10_000,
         idle_exit_secs: Some(0),
