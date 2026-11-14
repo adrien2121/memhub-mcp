@@ -103,10 +103,19 @@ fn import_and_reembed_refuse_while_the_daemon_lock_is_held() -> Result<()> {
 async fn daemon_leaves_a_socket_another_daemon_serves() -> Result<()> {
     let dir = fresh_dir("socket")?;
     let config = config(&dir);
-    let _other = memhub_mcp::ipc::listen(&config.socket_path)?;
+    let other = memhub_mcp::ipc::listen(&config.socket_path)?;
+    // Keep accepting like a real daemon: a Windows named pipe has one instance per accept, so
+    // after the daemon's probe takes it, a later connect would wait forever.
+    let server = tokio::spawn(async move {
+        let mut held = Vec::new();
+        while let Ok(s) = interprocess::local_socket::traits::tokio::Listener::accept(&other).await {
+            held.push(s);
+        }
+    });
 
     let refused = daemon::run(config.clone()).await;
     assert!(matches!(refused, Err(Error::InvalidInput(_))), "took over the socket: {refused:?}");
     assert!(memhub_mcp::ipc::connect(&config.socket_path).await.is_ok(), "broke the other daemon's socket");
+    server.abort();
     Ok(())
 }
