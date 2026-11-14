@@ -141,6 +141,7 @@ fn quoted_tags_keep_commas() {
 ///
 /// # Errors
 /// Any filesystem error.
+#[cfg(unix)]
 fn fresh_root(name: &str) -> Result<std::path::PathBuf> {
     let root = std::env::temp_dir().join(format!("memhub-mcp_{name}_src_{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&root);
