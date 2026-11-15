@@ -26,13 +26,25 @@ up as `.bak`. Flags: `memhub-mcp setup --help`.
 
 ## Manual setup
 
-Any MCP client works: run `memhub-mcp` (stdio, no arguments).
+Any MCP client works: run `memhub-mcp` (stdio, no arguments). Add this entry to the
+client's MCP config file, merging into `mcpServers` if it already exists:
 
 ```json
 { "mcpServers": { "memhub-mcp": { "command": "memhub-mcp" } } }
 ```
 
-VS Code uses `"servers"` instead of `"mcpServers"`. Claude Desktop needs the full path
+| Client | Config file |
+|---|---|
+| Cursor | `~/.cursor/mcp.json` |
+| Gemini CLI | `~/.gemini/settings.json` |
+| omp | `~/.omp/agent/mcp.json` |
+| Claude Desktop | `<app config>/Claude/claude_desktop_config.json` |
+| VS Code | `<app config>/Code/User/mcp.json`, key `"servers"`, add `"type": "stdio"` |
+| Claude Code | no file: `claude mcp add --scope user memhub-mcp -- memhub-mcp` |
+| Codex | no file: `codex mcp add memhub-mcp -- memhub-mcp` |
+
+`<app config>` is `~/Library/Application Support` on macOS, `%APPDATA%` on Windows and
+`~/.config` on Linux. Claude Desktop needs the full path as `command`
 (`which memhub-mcp`; Windows: `where.exe memhub-mcp`).
 
 ## Commands
