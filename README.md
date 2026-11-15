@@ -5,19 +5,21 @@ embedding model.
 
 ## Install
 
-One command installs memhub-mcp, adds it to your PATH and runs `setup`:
-
 ```sh
-curl -LsSf https://github.com/adrien2121/memhub-mcp/releases/latest/download/memhub-mcp-installer.sh | sh && "${CARGO_HOME:-$HOME/.cargo}/bin/memhub-mcp" setup
+curl -LsSf https://github.com/adrien2121/memhub-mcp/releases/latest/download/memhub-mcp-installer.sh | sh
 ```
 
 Windows (PowerShell):
 
 ```powershell
-irm https://github.com/adrien2121/memhub-mcp/releases/latest/download/memhub-mcp-installer.ps1 | iex; & "$HOME\.cargo\bin\memhub-mcp.exe" setup
+irm https://github.com/adrien2121/memhub-mcp/releases/latest/download/memhub-mcp-installer.ps1 | iex
 ```
 
-Open a new terminal afterwards to use `memhub-mcp` by name. Rust is not needed.
+Then, in a new terminal:
+
+```sh
+memhub-mcp setup
+```
 
 `setup` downloads the model and onnxruntime (SHA-256 pinned), connects memhub-mcp to
 Claude Code, Codex, Gemini CLI, Cursor, omp, Claude Desktop and VS Code, and can add a
