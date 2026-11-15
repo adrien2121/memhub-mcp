@@ -5,6 +5,8 @@ embedding model.
 
 ## Install
 
+macOS / Linux:
+
 ```sh
 curl -LsSf https://github.com/adrien2121/memhub-mcp/releases/latest/download/memhub-mcp-installer.sh | sh
 ```
